@@ -1,0 +1,29 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Create Customer Order</h1>
+
+<form method="POST">
+
+    <label>Customer Name</label>
+    <input type="text" name="customer_name" required>
+
+    <label>Select Book</label>
+    <select name="book_id" required>
+        {% for book in books %}
+        <option value="{{ book.id }}">
+            {{ book.title }} (Stock: {{ book.stock }})
+        </option>
+        {% endfor %}
+    </select>
+
+    <label>Quantity</label>
+    <input type="number" name="quantity" min="1" required>
+
+    <button type="submit">Place Order</button>
+
+</form>
+
+{% endblock %}

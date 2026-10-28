@@ -1,0 +1,53 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Customer Orders</h1>
+
+<a class="button" href="{{ url_for('add_order') }}">Create Order</a>
+
+<table>
+    <tr>
+        <th>Order ID</th>
+        <th>Customer</th>
+        <th>Book</th>
+        <th>Quantity</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for order in orders %}
+    <tr>
+        <td>{{ order.id }}</td>
+        <td>{{ order.customer_name }}</td>
+        <td>{{ order.title }}</td>
+        <td>{{ order.quantity }}</td>
+        <td>{{ order.status }}</td>
+        <td>
+            <form method="POST"
+                  action="{{ url_for('update_order', order_id=order.id) }}">
+                <select name="status">
+                    {% for status in
+                    ["Pending", "Processing", "Shipped",
+                     "Delivered", "Cancelled"] %}
+                    <option value="{{ status }}"
+                        {% if order.status == status %}selected{% endif %}>
+                        {{ status }}
+                    </option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit">Update</button>
+            </form>
+
+            <form method="POST"
+                  action="{{ url_for('delete_order', order_id=order.id) }}">
+                <button class="delete" type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
